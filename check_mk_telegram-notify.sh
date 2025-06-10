@@ -9,7 +9,7 @@
 # Telegram API Token
 # Find telegram bot named "@botfather", type /mybots, select your bot and select "API Token" to see your current token
 if [ -z ${NOTIFY_PARAMETER_1} ]; then
-        echo "No Telegram token ID provided. Exiting" >&2
+        echo "No Telegram token ID provided. Exiting" >> /omd/sites/cmk/local/share/check_mk/notifications/tgerror.log
         exit 2
 else
         TOKEN="${NOTIFY_PARAMETER_1}"
@@ -20,7 +20,7 @@ fi
 # Open "https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates" inside your Browser and send a HELLO to your bot, refresh side
 if [ -z ${NOTIFY_PARAMETER_2} ]; then
         if [ -z ${NOTIFY_CONTACT_TELEGRAMCHAT} ]; then
-                echo "No Telegram Chat-ID or Group-ID provided. Exiting" >&2
+                echo "No Telegram Chat-ID or Group-ID provided. Exiting" >> /omd/sites/cmk/local/share/check_mk/notifications/tgerror.log
                 exit 2
         else
                 CHAT_ID="${NOTIFY_CONTACT_TELEGRAMCHAT}"
@@ -65,7 +65,7 @@ if [[ ${NOTIFY_PARAMETER_3} == "privacy" ]]; then
         fi
 else
         if [ ! -z ${NOTIFY_PARAMETER_3} ]; then
-                echo "Invalid privacy parameter, check your Check_MK settings." >&2
+                echo "Invalid privacy parameter, check your Check_MK settings." >> /omd/sites/cmk/local/share/check_mk/notifications/tgerror.log
         fi
 fi
 
@@ -111,10 +111,10 @@ MESSAGE+="${NOTIFY_SHORTDATETIME} | ${OMD_SITE}"
 echo "Sending to telegram..." &^2
 response=$(curl -S -s -q --connect-timeout 5 -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" -d chat_id="${CHAT_ID}" -d message_thread_id="${THREAD_ID}" -d text="${MESSAGE}")
 if [ $? -ne 0 ]; then
-        echo "Not able to send Telegram message" >&2
-        echo $response >&2
+        echo "Not able to send Telegram message" >> /omd/sites/cmk/local/share/check_mk/notifications/tgerror.log
+        echo $response>> /omd/sites/cmk/local/share/check_mk/notifications/tgerror.log
         exit 2
 else
-        echo "Telegram message sent sucessfully" >&2
+        echo "Telegram message sent sucessfully" >> /omd/sites/cmk/local/share/check_mk/notifications/tgerror.log
         exit 0
 fi
