@@ -13,6 +13,7 @@ if [ -z ${NOTIFY_PARAMETER_1} ]; then
         exit 2
 else
         TOKEN="${NOTIFY_PARAMETER_1}"
+        echo "Telegram token received!" &^2
 fi
 
 # Telegram Chat-ID or Group-ID (and optional Thread-ID)
@@ -30,6 +31,7 @@ else
         if [ "${CHAT_ID}" = "${THREAD_ID}" ]; then
                 THREAD_ID=""
         fi
+        echo "Chat ID received!" &^2
 fi
 
 # Privacy settings to anonymize/masking IP addresses
@@ -106,6 +108,7 @@ MESSAGE+="%0AIPv4: ${NOTIFY_HOST_ADDRESS_4} %0AIPv6: ${NOTIFY_HOST_ADDRESS_6}%0A
 MESSAGE+="${NOTIFY_SHORTDATETIME} | ${OMD_SITE}"
 
 # Send message to Telegram bot
+echo "Sending to telegram..." &^2
 response=$(curl -S -s -q --connect-timeout 5 -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" -d chat_id="${CHAT_ID}" -d message_thread_id="${THREAD_ID}" -d text="${MESSAGE}")
 if [ $? -ne 0 ]; then
         echo "Not able to send Telegram message" >&2
