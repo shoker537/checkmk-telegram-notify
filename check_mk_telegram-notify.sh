@@ -8,6 +8,7 @@
 # ======================================================================================
 # Telegram API Token
 # Find telegram bot named "@botfather", type /mybots, select your bot and select "API Token" to see your current token
+echo "Started telegram notification..." >> /omd/sites/cmk/local/share/check_mk/notifications/tglog.log
 if [ -z ${NOTIFY_PARAMETER_1} ]; then
         echo "No Telegram token ID provided. Exiting" >> /omd/sites/cmk/local/share/check_mk/notifications/tglog.log
         exit 2
